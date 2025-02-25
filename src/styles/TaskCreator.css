@@ -1,0 +1,30 @@
+.task-creator {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .task-input,
+  .task-textarea {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+  }
+  
+  .task-textarea {
+    height: 60px;
+    resize: vertical;
+  }
+  
+  .task-button {
+    padding: 6px;
+    background: #ddd;
+    border: 1px solid #aaa;
+    cursor: pointer;
+  }
+  
+  .task-button:hover {
+    background: #ccc;
+  }
+  
