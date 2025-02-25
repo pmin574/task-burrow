@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Replace with your actual Firebase config from Firebase Console
 const firebaseConfig = {
-    apiKey: "AIzaSyCRUiRJABvqwt4isUAIZDM2iMGwsO4_8Gc",
-    authDomain: "taskburrow-v0-99323.firebaseapp.com",
-    projectId: "taskburrow-v0-99323",
-    storageBucket: "taskburrow-v0-99323.firebasestorage.app",
-    messagingSenderId: "151180997150",
-    appId: "1:151180997150:web:f56c248e92c93c23c8740f",
-    measurementId: "G-QTZ8SG8CP8"
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
+    measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
