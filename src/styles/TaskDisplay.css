@@ -1,0 +1,10 @@
+.task-display {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+  }
+  
