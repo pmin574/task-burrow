@@ -1,29 +1,32 @@
 import { db } from "../firebaseConfig";
-import { collection, addDoc, getDocs, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, getDocs, serverTimestamp, query, where } from "firebase/firestore";
 
-const tasksCollection = collection(db, "tasks"); // Firestore collection reference
+export const addTask = async (userId, task) => {
+  if (!userId) return; // Ensure a user is logged in
 
-// Function to add a task
-export const addTask = async (task) => {
   try {
-    const docRef = await addDoc(tasksCollection, {
+    const userTasksRef = collection(db, `users/${userId}/tasks`);
+    const docRef = await addDoc(userTasksRef, {
       ...task,
-      createdAt: serverTimestamp(), // Firestore's automatic timestamp
+      createdAt: serverTimestamp(),
     });
-    return { id: docRef.id, ...task, createdAt: new Date() }; // Return object with local timestamp
+
+    return { id: docRef.id, ...task, createdAt: new Date() };
   } catch (error) {
     console.error("Error adding task: ", error);
   }
 };
 
-// Function to fetch all tasks
-export const getTasks = async () => {
+export const getTasks = async (userId) => {
+  if (!userId) return [];
+
   try {
-    const snapshot = await getDocs(tasksCollection);
+    const userTasksRef = collection(db, `users/${userId}/tasks`);
+    const snapshot = await getDocs(userTasksRef);
     return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-      createdAt: doc.data().createdAt?.toDate(), // Convert Firestore timestamp to JS Date
+      createdAt: doc.data().createdAt?.toDate(),
     }));
   } catch (error) {
     console.error("Error fetching tasks: ", error);

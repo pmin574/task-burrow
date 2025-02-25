@@ -3,7 +3,7 @@ import { auth, loginWithGoogle, logout } from "./firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import TaskCreator from "./components/TaskCreator";
 import TaskDisplay from "./components/TaskDisplay";
-import { addTask, getTasks } from "./services/taskService"; // Import Firestore functions
+import { addTask, getTasks } from "./services/taskService";
 import "./styles/App.css";
 import "./styles/Logo.css";
 import logo from "./assets/TaskBurrow_Logo_PNG.png";
@@ -22,17 +22,19 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      fetchTasks(); // Fetch tasks when user logs in
+      fetchTasks();
     }
   }, [user]);
 
   const fetchTasks = async () => {
-    const fetchedTasks = await getTasks();
+    if (!user) return;
+    const fetchedTasks = await getTasks(user.uid); // Fetch only the logged-in user’s tasks
     setTasks(fetchedTasks);
   };
 
   const handleTaskCreate = async (newTask) => {
-    const taskWithId = await addTask(newTask);
+    if (!user) return;
+    const taskWithId = await addTask(user.uid, newTask);
     if (taskWithId) {
       setTasks((prevTasks) => [...prevTasks, taskWithId]);
     }
