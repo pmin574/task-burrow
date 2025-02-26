@@ -4,6 +4,9 @@ import "../styles/TaskCreator.css";
 const TaskCreator = ({ onTaskCreate }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState(""); // New field
+  const [priority, setPriority] = useState("Normal"); // New field
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -11,11 +14,13 @@ const TaskCreator = ({ onTaskCreate }) => {
     if (!title.trim() || !description.trim()) return;
 
     setLoading(true);
-    await onTaskCreate({ title, description });
+    await onTaskCreate({ title, description, dueDate, priority });
     setLoading(false);
 
     setTitle("");
     setDescription("");
+    setDueDate("");
+    setPriority("Normal");
   };
 
   return (
@@ -35,6 +40,24 @@ const TaskCreator = ({ onTaskCreate }) => {
         className="task-textarea"
         disabled={loading}
       />
+      <input
+        type="date"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+        className="task-input"
+        disabled={loading}
+      />
+      <select
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className="task-input"
+        disabled={loading}
+      >
+        <option value="Low">Low</option>
+        <option value="Normal">Normal</option>
+        <option value="High">High</option>
+      </select>
+
       <button type="submit" className="task-button" disabled={loading}>
         {loading ? "Adding..." : "Add Task"}
       </button>

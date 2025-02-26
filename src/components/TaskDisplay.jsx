@@ -1,17 +1,37 @@
 import "../styles/TaskDisplay.css";
 
-const TaskDisplay = ({ tasks = [] }) => {
+const TaskDisplay = ({ tasks = [], onTaskToggle }) => {
   return (
     <ul className="task-display">
       {tasks.length === 0 ? (
         <p>No tasks yet.</p>
       ) : (
         tasks.map((task) => (
-          <li key={task.id} className="task-item">
+          <li
+            key={task.id}
+            className={`task-item ${task.completed ? "completed" : ""}`}
+          >
             <strong>{task.title}</strong>
             <p>{task.description}</p>
+            {task.dueDate && (
+              <p>
+                <strong>Due:</strong> {task.dueDate}
+              </p>
+            )}
+            <p>
+              <strong>Priority:</strong> {task.priority}
+            </p>
+            <label>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => onTaskToggle(task.id, !task.completed)}
+              />
+              Completed
+            </label>
             <small>
-              Created at: {task.createdAt ? task.createdAt.toLocaleString() : "Unknown"}
+              Created at:{" "}
+              {task.createdAt ? task.createdAt.toLocaleString() : "Unknown"}
             </small>
           </li>
         ))
