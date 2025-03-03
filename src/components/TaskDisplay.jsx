@@ -1,6 +1,6 @@
 import "../styles/TaskDisplay.css";
 
-const TaskDisplay = ({ tasks = [], onTaskToggle }) => {
+const TaskDisplay = ({ tasks = [], onTaskToggle, onTaskDelete }) => {
   return (
     <ul className="task-display">
       {tasks.length === 0 ? (
@@ -33,6 +33,8 @@ const TaskDisplay = ({ tasks = [], onTaskToggle }) => {
               Created at:{" "}
               {task.createdAt ? task.createdAt.toLocaleString() : "Unknown"}
             </small>
+            {/* Delete button for individual task */}
+            <button onClick={() => onTaskDelete(task.id)}>Delete</button>
           </li>
         ))
       )}

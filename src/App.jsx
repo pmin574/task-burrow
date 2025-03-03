@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom"; // ✅ Use Routes & Route
 import { auth, loginWithGoogle, logout } from "./firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { addTask, getTasks } from "./services/taskService";
+import {
+  addTask,
+  getTasks,
+  clearTasks,
+  deleteTask,
+} from "./services/taskService";
 import "./styles/App.css";
 import "./styles/Logo.css";
 import logo from "./assets/TaskBurrow_Logo_PNG.png";
@@ -50,6 +55,20 @@ function App() {
     navigate("/"); // ✅ Redirects back to the Landing Page
   };
 
+  const handleClearTasks = async () => {
+    if (!user) return;
+    // Delete tasks from Firestore
+    await clearTasks(user.uid);
+    // Clear the tasks from the UI
+    setTasks([]);
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    if (!user) return;
+    await deleteTask(user.uid, taskId);
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  };
+
   if (user === undefined) {
     return <p>Loading...</p>;
   }
@@ -63,10 +82,15 @@ function App() {
           <p>Welcome, {user.displayName}</p>
           <button onClick={handleLogout}>Logout</button>
           <TaskCreator onTaskCreate={handleTaskCreate} />
-          <TaskDisplay tasks={tasks} />
+          <button onClick={handleClearTasks}>Clear Tasks</button>
+          <TaskDisplay
+            tasks={tasks}
+            // if you have a toggle handler
+            onTaskDelete={handleDeleteTask} // this enables individual task deletion
+          />
         </>
       ) : (
-        <Routes> {/* ✅ Use Routes here instead of RouterProvider */}
+        <Routes>
           <Route path="/" element={<LandingPage />} />
         </Routes>
       )}
