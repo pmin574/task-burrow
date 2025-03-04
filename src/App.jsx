@@ -35,6 +35,24 @@ function DashboardLayout() {
     setTasks(fetchedTasks);
   };
 
+  const handleDeleteMultipleTasks = async (taskIds) => {
+    if (!auth.currentUser || taskIds.length === 0) return;
+
+    try {
+      // Delete tasks in Firebase
+      for (const taskId of taskIds) {
+        await deleteTask(auth.currentUser.uid, taskId);
+      }
+
+      // Update UI
+      setTasks((prevTasks) =>
+        prevTasks.filter((task) => !taskIds.includes(task.id))
+      );
+    } catch (error) {
+      console.error("Error deleting tasks:", error);
+    }
+  };
+
   const handleTaskCreate = async (newTask) => {
     if (!auth.currentUser) return;
     const taskWithId = await addTask(auth.currentUser.uid, newTask);
@@ -69,7 +87,7 @@ function DashboardLayout() {
 
       <div className="main-content">
         <h2>Welcome, {auth.currentUser?.displayName}</h2>
-        <TaskDisplay tasks={tasks} />
+        <TaskDisplay tasks={tasks} onTaskDelete={handleDeleteMultipleTasks} />
       </div>
     </div>
   );

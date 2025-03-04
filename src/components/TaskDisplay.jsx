@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../styles/TaskDisplay.css";
 
-const TaskDisplay = ({ tasks = [], onTaskDelete, onTaskEdit }) => {
+const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
   const [pageSize, setPageSize] = useState(5);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -12,44 +12,26 @@ const TaskDisplay = ({ tasks = [], onTaskDelete, onTaskEdit }) => {
 
   // Define columns
   const columns = [
-    { field: "title", headerName: "Title", flex: 1, editable: true },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 2,
-      editable: true,
-    },
-    {
-      field: "dueDate",
-      headerName: "Due Date",
-      flex: 1,
-      editable: true,
-      sortable: true,
-    },
-    {
-      field: "priority",
-      headerName: "Priority",
-      flex: 1,
-      editable: true,
-      sortable: true,
-    },
+    { field: "title", headerName: "Title", flex: 1 },
+    { field: "description", headerName: "Description", flex: 2 },
+    { field: "dueDate", headerName: "Due Date", flex: 1, sortable: true },
+    { field: "priority", headerName: "Priority", flex: 1, sortable: true },
   ];
 
   // Convert tasks into row format for DataGrid
   const rows = tasks.map((task) => ({
-    id: task.id, // Use actual task ID instead of index
+    id: task.id, // Use actual task ID
     title: task.title,
     description: task.description,
     dueDate: task.dueDate || "N/A",
     priority: task.priority,
   }));
 
-  // Function to delete selected tasks
+  // 🔥 Ensure "Delete Selected" button correctly deletes multiple tasks
   const handleDeleteSelected = () => {
     if (selectedRows.length === 0) return;
-
-    onTaskDelete(selectedRows);
-    setSelectedRows([]);
+    onTaskDelete(selectedRows); // Pass selected task IDs to App.jsx
+    setSelectedRows([]); // Clear selection after deletion
   };
 
   return (
@@ -77,11 +59,6 @@ const TaskDisplay = ({ tasks = [], onTaskDelete, onTaskEdit }) => {
           disableSelectionOnClick
           checkboxSelection // Enables row selection
           onRowSelectionModelChange={(selection) => setSelectedRows(selection)} // Updates selected tasks
-          onCellEditStop={(params, event) => {
-            if (event && event.key === "Enter") {
-              onTaskEdit(params.id, params.field, event.target.value);
-            }
-          }}
           components={{ Toolbar: GridToolbar }} // Includes toolbar
         />
       </div>
