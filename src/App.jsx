@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Routes, Route } from "react-router-dom"; // ✅ Use Routes & Route
+import { useNavigate, Routes, Route } from "react-router-dom";
 import { auth, loginWithGoogle, logout } from "./firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -10,27 +10,16 @@ import {
 } from "./services/taskService";
 import "./styles/App.css";
 import "./styles/Logo.css";
+import "./styles/Sidebar.css"; // Add a new CSS file for the sidebar
 import logo from "./assets/TaskBurrow_Logo_PNG.png";
 import TaskCreator from "./components/TaskCreator";
 import TaskDisplay from "./components/TaskDisplay";
-import LandingPage from "./pages/LandingPage"; // ✅ Import LandingPage
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#dc004e",
-    },
-  },
-});
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const [user, setUser] = useState(undefined);
   const [tasks, setTasks] = useState([]);
-  const navigate = useNavigate(); // ✅ Now this works properly
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -64,21 +53,7 @@ function App() {
     await logout();
     setUser(null);
     setTasks([]);
-    navigate("/"); // ✅ Redirects back to the Landing Page
-  };
-
-  const handleClearTasks = async () => {
-    if (!user) return;
-    // Delete tasks from Firestore
-    await clearTasks(user.uid);
-    // Clear the tasks from the UI
-    setTasks([]);
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    if (!user) return;
-    await deleteTask(user.uid, taskId);
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    navigate("/");
   };
 
   if (user === undefined) {
@@ -86,28 +61,33 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <img src={logo} alt="Task Burrow" className="spinning-logo" />
-
-      {user ? (
-        <>
-          <ThemeProvider theme={theme}>
-            <p>Welcome, {user.displayName}</p>
-            <button onClick={handleLogout}>Logout</button>
+    <div className="app-layout">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <img src={logo} alt="Task Burrow" className="logo" />
+        {user && (
+          <>
             <TaskCreator onTaskCreate={handleTaskCreate} />
-            <button onClick={handleClearTasks}>Clear Tasks</button>
-            <TaskDisplay
-              tasks={tasks}
-              // if you have a toggle handler
-              onTaskDelete={handleDeleteTask} // this enables individual task deletion
-            />
-          </ThemeProvider>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-        </Routes>
-      )}
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {user ? (
+          <>
+            <h2>Welcome, {user.displayName}</h2>
+            <TaskDisplay tasks={tasks} onTaskDelete={deleteTask} />
+          </>
+        ) : (
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+          </Routes>
+        )}
+      </div>
     </div>
   );
 }

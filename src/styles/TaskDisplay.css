@@ -1,10 +1,14 @@
 .task-display {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .task-item {
-    border-bottom: 1px solid #ccc;
-    padding: 8px 0;
-  }
-  
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-item {
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+}
