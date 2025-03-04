@@ -50,7 +50,7 @@ export const addTask = async (userId, task) => {
     const userTasksRef = collection(db, `users/${userId}/tasks`);
     const docRef = await addDoc(userTasksRef, {
       ...task,
-      dueDate: task.dueDate || null,
+      dueDate: task.dueDate ? new Date(task.dueDate).toISOString() : null,
       priority: task.priority || "Normal",
       completed: task.completed ?? false,
       createdAt: serverTimestamp(),
