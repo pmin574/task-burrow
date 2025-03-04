@@ -9,8 +9,7 @@ import {
   deleteTask,
 } from "./services/taskService";
 import "./styles/App.css";
-import "./styles/Logo.css";
-import "./styles/Sidebar.css"; // Add a new CSS file for the sidebar
+import "./styles/Sidebar.css";
 import logo from "./assets/TaskBurrow_Logo_PNG.png";
 import TaskCreator from "./components/TaskCreator";
 import TaskDisplay from "./components/TaskDisplay";
@@ -53,7 +52,19 @@ function App() {
     await logout();
     setUser(null);
     setTasks([]);
-    navigate("/");
+    navigate("/"); // Redirects back to the Landing Page
+  };
+
+  const handleDeleteMultipleTasks = async (taskIds) => {
+    if (!user || taskIds.length === 0) return;
+
+    for (const taskId of taskIds) {
+      await deleteTask(user.uid, taskId);
+    }
+
+    setTasks((prevTasks) =>
+      prevTasks.filter((task) => !taskIds.includes(task.id))
+    );
   };
 
   if (user === undefined) {
@@ -80,7 +91,10 @@ function App() {
         {user ? (
           <>
             <h2>Welcome, {user.displayName}</h2>
-            <TaskDisplay tasks={tasks} onTaskDelete={deleteTask} />
+            <TaskDisplay
+              tasks={tasks}
+              onTaskDelete={handleDeleteMultipleTasks}
+            />
           </>
         ) : (
           <Routes>
