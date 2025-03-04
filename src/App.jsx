@@ -7,6 +7,7 @@ import {
   getTasks,
   clearTasks,
   deleteTask,
+  updateTask, // New function for editing
 } from "./services/taskService";
 import "./styles/App.css";
 import "./styles/Sidebar.css";
@@ -67,6 +68,22 @@ function App() {
     );
   };
 
+  // 🔥 New Function: Handle Editing Tasks
+  const handleEditTask = async (taskId, field, newValue) => {
+    if (!user) return;
+
+    try {
+      await updateTask(user.uid, taskId, field, newValue); // Update in Firebase
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, [field]: newValue } : task
+        )
+      );
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
   if (user === undefined) {
     return <p>Loading...</p>;
   }
@@ -91,9 +108,11 @@ function App() {
         {user ? (
           <>
             <h2>Welcome, {user.displayName}</h2>
+            {/* Pass new edit function to TaskDisplay */}
             <TaskDisplay
               tasks={tasks}
               onTaskDelete={handleDeleteMultipleTasks}
+              onTaskEdit={handleEditTask} // Editing support
             />
           </>
         ) : (

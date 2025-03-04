@@ -10,6 +10,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+// 🔹 Delete a single task
 export const deleteTask = async (userId, taskId) => {
   if (!userId || !taskId) return;
 
@@ -22,27 +23,26 @@ export const deleteTask = async (userId, taskId) => {
   }
 };
 
+// 🔹 Clear all tasks for a user
 export const clearTasks = async (userId) => {
   if (!userId) return;
 
   try {
-    // Get a reference to the user's tasks collection
     const userTasksRef = collection(db, `users/${userId}/tasks`);
     const snapshot = await getDocs(userTasksRef);
     const batch = writeBatch(db);
 
-    // Add a delete operation for each task document
     snapshot.docs.forEach((docSnap) => {
       batch.delete(docSnap.ref);
     });
 
-    // Commit the batch to delete all tasks in one go
     await batch.commit();
   } catch (error) {
     console.error("Error clearing tasks: ", error);
   }
 };
 
+// 🔹 Add a new task
 export const addTask = async (userId, task) => {
   if (!userId) return;
 
@@ -52,7 +52,7 @@ export const addTask = async (userId, task) => {
       ...task,
       dueDate: task.dueDate || null,
       priority: task.priority || "Normal",
-      completed: task.completed ?? false, // Default to false
+      completed: task.completed ?? false,
       createdAt: serverTimestamp(),
     });
 
@@ -62,6 +62,7 @@ export const addTask = async (userId, task) => {
   }
 };
 
+// 🔹 Fetch tasks
 export const getTasks = async (userId) => {
   if (!userId) return [];
 
@@ -73,7 +74,7 @@ export const getTasks = async (userId) => {
       ...doc.data(),
       dueDate: doc.data().dueDate || null,
       priority: doc.data().priority || "Normal",
-      completed: doc.data().completed ?? false, // Default to false
+      completed: doc.data().completed ?? false,
       createdAt: doc.data().createdAt?.toDate(),
     }));
   } catch (error) {
@@ -82,13 +83,14 @@ export const getTasks = async (userId) => {
   }
 };
 
-export const toggleTaskCompletion = async (userId, taskId, completed) => {
+// 🔹 Update task (New for Editing)
+export const updateTask = async (userId, taskId, field, newValue) => {
   if (!userId || !taskId) return;
 
   try {
     const taskRef = doc(db, `users/${userId}/tasks`, taskId);
-    await updateDoc(taskRef, { completed });
+    await updateDoc(taskRef, { [field]: newValue });
   } catch (error) {
-    console.error("Error updating task completion: ", error);
+    console.error("Error updating task: ", error);
   }
 };

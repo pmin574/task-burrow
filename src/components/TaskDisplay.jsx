@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../styles/TaskDisplay.css";
 
-const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
+const TaskDisplay = ({ tasks = [], onTaskDelete, onTaskEdit }) => {
   const [pageSize, setPageSize] = useState(5);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -12,10 +12,27 @@ const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
 
   // Define columns
   const columns = [
-    { field: "title", headerName: "Title", flex: 1 },
-    { field: "description", headerName: "Description", flex: 2 },
-    { field: "dueDate", headerName: "Due Date", flex: 1, sortable: true },
-    { field: "priority", headerName: "Priority", flex: 1, sortable: true },
+    { field: "title", headerName: "Title", flex: 1, editable: true },
+    {
+      field: "description",
+      headerName: "Description",
+      flex: 2,
+      editable: true,
+    },
+    {
+      field: "dueDate",
+      headerName: "Due Date",
+      flex: 1,
+      editable: true,
+      sortable: true,
+    },
+    {
+      field: "priority",
+      headerName: "Priority",
+      flex: 1,
+      editable: true,
+      sortable: true,
+    },
   ];
 
   // Convert tasks into row format for DataGrid
@@ -31,10 +48,7 @@ const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
   const handleDeleteSelected = () => {
     if (selectedRows.length === 0) return;
 
-    // 🔥 Call the new function from App.jsx
     onTaskDelete(selectedRows);
-
-    // Clear selection after deletion
     setSelectedRows([]);
   };
 
@@ -63,6 +77,11 @@ const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
           disableSelectionOnClick
           checkboxSelection // Enables row selection
           onRowSelectionModelChange={(selection) => setSelectedRows(selection)} // Updates selected tasks
+          onCellEditStop={(params, event) => {
+            if (event && event.key === "Enter") {
+              onTaskEdit(params.id, params.field, event.target.value);
+            }
+          }}
           components={{ Toolbar: GridToolbar }} // Includes toolbar
         />
       </div>
