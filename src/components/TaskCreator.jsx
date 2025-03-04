@@ -1,12 +1,22 @@
 import { useState } from "react";
-import "../styles/TaskCreator.css";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Stack,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 
 const TaskCreator = ({ onTaskCreate }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState(""); // New field
-  const [priority, setPriority] = useState("Normal"); // New field
-
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("Normal");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -24,44 +34,79 @@ const TaskCreator = ({ onTaskCreate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="task-creator">
-      <input
-        type="text"
-        placeholder="Task Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="task-input"
-        disabled={loading}
-      />
-      <textarea
-        placeholder="Task Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="task-textarea"
-        disabled={loading}
-      />
-      <input
-        type="date"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="task-input"
-        disabled={loading}
-      />
-      <select
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-        className="task-input"
-        disabled={loading}
-      >
-        <option value="Low">Low</option>
-        <option value="Normal">Normal</option>
-        <option value="High">High</option>
-      </select>
-
-      <button type="submit" className="task-button" disabled={loading}>
-        {loading ? "Adding..." : "Add Task"}
-      </button>
-    </form>
+    <Paper
+      elevation={3}
+      sx={{
+        padding: 2,
+        border: "1px solid #ccc",
+        borderRadius: 1,
+        maxWidth: 400,
+        margin: "auto",
+      }}
+    >
+      <Typography variant="h6" align="center" gutterBottom>
+        Create a Task
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={1}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Task Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+                margin="dense"
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Due Date"
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                margin="dense"
+                size="small"
+              />
+            </Grid>
+          </Grid>
+          <TextField
+            label="Task Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            fullWidth
+            multiline
+            rows={2}
+            margin="dense"
+            size="small"
+          />
+          <FormControl fullWidth margin="dense" size="small">
+            <InputLabel>Priority</InputLabel>
+            <Select
+              value={priority}
+              label="Priority"
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <MenuItem value="Low">Low</MenuItem>
+              <MenuItem value="Normal">Normal</MenuItem>
+              <MenuItem value="High">High</MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+            size="small"
+          >
+            {loading ? "Adding..." : "Add Task"}
+          </Button>
+        </Stack>
+      </form>
+    </Paper>
   );
 };
 

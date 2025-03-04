@@ -14,6 +14,18 @@ import logo from "./assets/TaskBurrow_Logo_PNG.png";
 import TaskCreator from "./components/TaskCreator";
 import TaskDisplay from "./components/TaskDisplay";
 import LandingPage from "./pages/LandingPage"; // ✅ Import LandingPage
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1976d2",
+    },
+    secondary: {
+      main: "#dc004e",
+    },
+  },
+});
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -79,15 +91,17 @@ function App() {
 
       {user ? (
         <>
-          <p>Welcome, {user.displayName}</p>
-          <button onClick={handleLogout}>Logout</button>
-          <TaskCreator onTaskCreate={handleTaskCreate} />
-          <button onClick={handleClearTasks}>Clear Tasks</button>
-          <TaskDisplay
-            tasks={tasks}
-            // if you have a toggle handler
-            onTaskDelete={handleDeleteTask} // this enables individual task deletion
-          />
+          <ThemeProvider theme={theme}>
+            <p>Welcome, {user.displayName}</p>
+            <button onClick={handleLogout}>Logout</button>
+            <TaskCreator onTaskCreate={handleTaskCreate} />
+            <button onClick={handleClearTasks}>Clear Tasks</button>
+            <TaskDisplay
+              tasks={tasks}
+              // if you have a toggle handler
+              onTaskDelete={handleDeleteTask} // this enables individual task deletion
+            />
+          </ThemeProvider>
         </>
       ) : (
         <Routes>
