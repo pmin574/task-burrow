@@ -40,3 +40,54 @@
   justify-content: center;
   padding: 20px;
 }
+
+.burrows-box {
+  width: 100%;
+  background: #34495e;
+  color: white;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.burrows-box h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.burrows-box button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #2980b9;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.burrows-box button:hover {
+  background: #1f6691;
+}
+
+.burrows-box button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #2980b9;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.burrows-box button:hover {
+  background: #1f6691;
+}

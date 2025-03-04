@@ -7,7 +7,7 @@ import {
   getTasks,
   clearTasks,
   deleteTask,
-  updateTask, // New function for editing
+  updateTask,
 } from "./services/taskService";
 import "./styles/App.css";
 import "./styles/Sidebar.css";
@@ -15,6 +15,10 @@ import logo from "./assets/TaskBurrow_Logo_PNG.png";
 import TaskCreator from "./components/TaskCreator";
 import TaskDisplay from "./components/TaskDisplay";
 import LandingPage from "./pages/LandingPage";
+import CalendarPage from "./pages/CalendarPage";
+import InsightsPage from "./pages/InsightsPage";
+import KanbanBoardPage from "./pages/KanbanBoardPage";
+import { CircularProgress } from "@mui/material";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -53,7 +57,7 @@ function App() {
     await logout();
     setUser(null);
     setTasks([]);
-    navigate("/"); // Redirects back to the Landing Page
+    navigate("/");
   };
 
   const handleDeleteMultipleTasks = async (taskIds) => {
@@ -68,12 +72,11 @@ function App() {
     );
   };
 
-  // 🔥 New Function: Handle Editing Tasks
   const handleEditTask = async (taskId, field, newValue) => {
     if (!user) return;
 
     try {
-      await updateTask(user.uid, taskId, field, newValue); // Update in Firebase
+      await updateTask(user.uid, taskId, field, newValue);
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId ? { ...task, [field]: newValue } : task
@@ -85,23 +88,35 @@ function App() {
   };
 
   if (user === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-container">
+        <CircularProgress size={60} />
+        <p>Loading your tasks...</p>
+      </div>
+    );
   }
 
   return (
     <div className="app-layout">
-      {/* ✅ Only show Sidebar if user is logged in */}
       {user && (
         <div className="sidebar">
           <img src={logo} alt="Task Burrow" className="logo" />
           <TaskCreator onTaskCreate={handleTaskCreate} />
+
+          {/* 🔥 Burrows Section with New Pages */}
+          <div className="burrows-box">
+            <h3>Burrows</h3>
+            <button onClick={() => navigate("/calendar")}>📅 Calendar</button>
+            <button onClick={() => navigate("/insights")}>📊 Insights</button>
+            <button onClick={() => navigate("/kanban")}>🗂️ Kanban Board</button>
+          </div>
+
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
         </div>
       )}
 
-      {/* Main Content */}
       <div className="main-content">
         {user ? (
           <>
@@ -109,12 +124,15 @@ function App() {
             <TaskDisplay
               tasks={tasks}
               onTaskDelete={handleDeleteMultipleTasks}
-              onTaskEdit={handleEditTask} // Editing support
+              onTaskEdit={handleEditTask}
             />
           </>
         ) : (
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/insights" element={<InsightsPage />} />
+            <Route path="/kanban" element={<KanbanBoardPage />} />
           </Routes>
         )}
       </div>
