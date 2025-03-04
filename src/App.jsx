@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { auth, onAuthStateChanged, logout } from "./firebaseConfig";
 import {
   addTask,
@@ -23,7 +18,6 @@ import CalendarPage from "./pages/CalendarPage";
 import InsightsPage from "./pages/InsightsPage";
 import KanbanBoardPage from "./pages/KanbanBoardPage";
 import { CircularProgress } from "@mui/material";
-import { Outlet } from "react-router-dom";
 
 function DashboardLayout() {
   const navigate = useNavigate();
@@ -56,7 +50,6 @@ function DashboardLayout() {
 
   return (
     <div className="app-layout">
-      {/* Sidebar should not be visible on full-screen pages */}
       <div className="sidebar">
         <img src={logo} alt="Task Burrow" className="logo" />
         <TaskCreator onTaskCreate={handleTaskCreate} />
@@ -103,19 +96,15 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        {/* Dashboard Layout */}
-        <Route path="/" element={user ? <DashboardLayout /> : <LandingPage />}>
-          <Route index element={<TaskDisplay />} />
-        </Route>
+    <Routes>
+      {/* Full-Screen Pages */}
+      <Route path="/calendar" element={<CalendarPage />} />
+      <Route path="/insights" element={<InsightsPage />} />
+      <Route path="/kanban" element={<KanbanBoardPage />} />
 
-        {/* Full-Screen Pages */}
-        <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/insights" element={<InsightsPage />} />
-        <Route path="/kanban" element={<KanbanBoardPage />} />
-      </Routes>
-    </Router>
+      {/* Dashboard Layout */}
+      <Route path="/" element={user ? <DashboardLayout /> : <LandingPage />} />
+    </Routes>
   );
 }
 
