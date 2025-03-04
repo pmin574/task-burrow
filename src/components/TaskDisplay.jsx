@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useState } from "react";
 import "../styles/TaskDisplay.css";
 
@@ -36,6 +36,7 @@ const TaskDisplay = ({ tasks = [] }) => {
         pagination
         autoHeight
         disableSelectionOnClick
+        components={{ Toolbar: GridToolbar }} // Add the toolbar
       />
     </div>
   );
