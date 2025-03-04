@@ -90,25 +90,22 @@ function App() {
 
   return (
     <div className="app-layout">
-      {/* Sidebar */}
-      <div className="sidebar">
-        <img src={logo} alt="Task Burrow" className="logo" />
-        {user && (
-          <>
-            <TaskCreator onTaskCreate={handleTaskCreate} />
-            <button className="logout-button" onClick={handleLogout}>
-              Logout
-            </button>
-          </>
-        )}
-      </div>
+      {/* ✅ Only show Sidebar if user is logged in */}
+      {user && (
+        <div className="sidebar">
+          <img src={logo} alt="Task Burrow" className="logo" />
+          <TaskCreator onTaskCreate={handleTaskCreate} />
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="main-content">
         {user ? (
           <>
             <h2>Welcome, {user.displayName}</h2>
-            {/* Pass new edit function to TaskDisplay */}
             <TaskDisplay
               tasks={tasks}
               onTaskDelete={handleDeleteMultipleTasks}
