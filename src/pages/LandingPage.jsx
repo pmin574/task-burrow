@@ -11,7 +11,7 @@ const LandingPage = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/tasks"); // Redirect logged-in users
+        navigate("/"); // Redirect logged-in users
       }
     });
 
