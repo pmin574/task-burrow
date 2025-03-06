@@ -55,7 +55,6 @@ function Dashboard() {
     <div className="app-layout">
       <div className="sidebar">
         <img src={logo} alt="Task Burrow" className="logo" />
-        <TaskCreator onTaskCreate={handleTaskCreate} />
 
         {/* 🔥 Burrows Section for Navigation */}
         <div className="burrows-box">
@@ -63,6 +62,7 @@ function Dashboard() {
           <button onClick={() => navigate("/calendar")}>📅 Calendar</button>
           <button onClick={() => navigate("/insights")}>📊 Insights</button>
           <button onClick={() => navigate("/kanban")}>🗂️ Kanban Board</button>
+          <button onClick={() => navigate("/tasks")}>📋 Tasks</button>
         </div>
 
         <button className="logout-button" onClick={handleLogout}>
@@ -70,9 +70,9 @@ function Dashboard() {
         </button>
       </div>
 
-      <div className="main-content">
+      <div className="main-content empty-dashboard">
         <h2>Welcome, {auth.currentUser?.displayName}</h2>
-        <TaskDisplay tasks={tasks} onTaskDelete={handleDeleteMultipleTasks} />
+        <p>Select a section to manage your tasks.</p>
       </div>
     </div>
   );

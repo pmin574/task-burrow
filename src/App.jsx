@@ -6,6 +6,7 @@ import InsightsPage from "./pages/InsightsPage";
 import KanbanBoardPage from "./pages/KanbanBoardPage";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard"; // ✅ New import
+import TasksPage from "./pages/TasksPage";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -36,6 +37,7 @@ function App() {
       <Route path="/calendar" element={<CalendarPage />} />
       <Route path="/insights" element={<InsightsPage />} />
       <Route path="/kanban" element={<KanbanBoardPage />} />
+      <Route path="/tasks" element={<TasksPage />} />
     </Routes>
   );
 }
