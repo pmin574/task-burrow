@@ -14,7 +14,8 @@
 }
 
 .logo {
-  width: 150px;
+  width: 400px; /* Increase size */
+  height: auto; /* Maintain aspect ratio */
   margin-bottom: 20px;
 }
 
