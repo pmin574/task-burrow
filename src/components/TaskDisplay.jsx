@@ -52,7 +52,7 @@ const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
           disabled={selectedRows.length === 0}
           className="delete-button"
         >
-          Delete Selected
+          Delete
         </button>
       </div>
 
