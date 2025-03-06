@@ -1,6 +1,7 @@
-/* Minimal styles for App component */
 .app-container {
   padding: 20px;
   max-width: 600px;
   margin: auto;
+  background: transparent; /* Ensure the global background shows through */
 }
+

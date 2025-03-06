@@ -56,7 +56,9 @@ function App() {
 
   return (
     <div className="app-container">
-      <img src={logo} alt="Task Burrow" className="spinning-logo" />
+      {/* 
+      <img src={logo} alt="Task Burrow" className="spinning-logo" /> 
+      */}
 
       {user ? (
         <>

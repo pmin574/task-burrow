@@ -2,7 +2,13 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #fff;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background: linear-gradient(to top, #08203e 0%, #557c93 100%);
   color: #000;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

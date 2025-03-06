@@ -1,0 +1,17 @@
+.typing-text {
+    margin: auto;
+    font-size: 50px; /* Adjust the size as needed */
+    font-family: "Inter", sans-serif; /* Change to your preferred font */
+    font-style: normal;
+    font-weight: bold;
+    color: #ffffff; /* Adjust color as needed */
+  }
+  
+.call-to-action {
+    margin: auto;
+    font-size: 15px; /* Adjust the size as needed */
+    font-family: "Inter", sans-serif; /* Change to your preferred font */
+    font-style: italic;
+    font-weight: normal;
+    color: #ffffff; /* Adjust color as needed */
+}
