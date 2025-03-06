@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, loginWithGoogle } from "../../src/firebaseConfig"; // Adjust path if needed
+import { auth, loginWithGoogle } from "../../src/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import GoogleButton from "react-google-button";
-//import "../../styles/LandingPage.css";  // Ensure you have your CSS styles
+import { motion } from "framer-motion"; // Import Framer Motion
+import LoginButtons from "../components/LoginButton";
+import LandingHeader from "../components/LandingHeader"; // Import the new component
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -19,9 +20,29 @@ const LandingPage = () => {
   }, [navigate]);
 
   return (
-    <div className="landing-container">
-      <h1>Welcome to Task Burrow</h1>
-      <GoogleButton onClick={loginWithGoogle} />
+    <div className="container text-center mt-5">
+      {/* Animated Typing Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: -50 }} // Starts faded & moved up
+        whileInView={{ opacity: 1, y: 0 }} // Fades in & moves down
+        transition={{ duration: 1, ease: "easeOut" }} // Smooth animation
+        viewport={{ once: true }} // Only animates once on scroll
+      >
+        <LandingHeader />
+      </motion.div>
+
+      {/* Login Buttons with scroll reveal */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }} // Starts faded & moved down
+        whileInView={{ opacity: 1, y: 0 }} // Fades in & moves up
+        transition={{ duration: 1, ease: "easeOut", delay: 0.3 }} // Slight delay
+        viewport={{ once: true }} // Only animates once
+      >
+        <LoginButtons 
+          onGoogleLogin={loginWithGoogle}
+          onMicrosoftLogin={() => alert("Microsoft login not yet implemented")}
+        />
+      </motion.div>
     </div>
   );
 };

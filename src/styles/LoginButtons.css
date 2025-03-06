@@ -1,0 +1,48 @@
+/* Center the buttons and add spacing */
+.login-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+  }
+  
+  /* Make the buttons rounded and align content */
+  .login-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    padding: 10px 15px;
+    border-radius: 25px; /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    min-width: 200px; /* Consistent button width */
+    justify-content: center;
+  }
+  
+  /* Google button styling */
+  .google-btn {
+    background-color: #db4437;
+    color: white;
+    border: none;
+  }
+  
+  /* Microsoft button styling */
+  .microsoft-btn {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+  }
+  
+  /* Hover effect */
+  .login-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  
+  /* Icon size */
+  .login-btn img {
+    width: 24px;
+    height: 24px;
+  }  
