@@ -16,20 +16,48 @@ const TaskCreator = ({ onTaskCreate }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [dueTime, setDueTime] = useState(""); // Optional Time Input
   const [priority, setPriority] = useState("Normal");
   const [loading, setLoading] = useState(false);
 
+  // ✅ Track missing fields
+  const [errors, setErrors] = useState({ title: false, description: false });
+
+  // ✅ Handles Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !description.trim()) return;
+
+    // Check for missing fields
+    let newErrors = {
+      title: title.trim() === "",
+      description: description.trim() === "",
+    };
+
+    setErrors(newErrors);
+
+    // If any field is missing, do not proceed
+    if (newErrors.title || newErrors.description) {
+      // 🔥 Remove highlight after 3 seconds
+      setTimeout(() => {
+        setErrors({ title: false, description: false });
+      }, 3000);
+      return;
+    }
+
+    let dueDateTime = dueDate;
+    if (dueDate && dueTime) {
+      dueDateTime = `${dueDate}T${dueTime}:00`;
+    }
 
     setLoading(true);
-    await onTaskCreate({ title, description, dueDate, priority });
+    await onTaskCreate({ title, description, dueDate: dueDateTime, priority });
     setLoading(false);
 
+    // Reset Fields
     setTitle("");
     setDescription("");
     setDueDate("");
+    setDueTime("");
     setPriority("Normal");
   };
 
@@ -50,7 +78,7 @@ const TaskCreator = ({ onTaskCreate }) => {
       <form onSubmit={handleSubmit}>
         <Stack spacing={1}>
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6}>
               <TextField
                 label="Task Title"
                 value={title}
@@ -58,14 +86,28 @@ const TaskCreator = ({ onTaskCreate }) => {
                 fullWidth
                 margin="dense"
                 size="small"
+                error={errors.title} // ✅ Highlight if missing
+                sx={{ backgroundColor: errors.title ? "#ffebee" : "white" }} // Red flash for 3s
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6}>
               <TextField
                 label="Due Date"
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                margin="dense"
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Due Time (Optional)"
+                type="time"
+                value={dueTime}
+                onChange={(e) => setDueTime(e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 margin="dense"
@@ -82,6 +124,8 @@ const TaskCreator = ({ onTaskCreate }) => {
             rows={2}
             margin="dense"
             size="small"
+            error={errors.description} // ✅ Highlight if missing
+            sx={{ backgroundColor: errors.description ? "#ffebee" : "white" }} // Red flash for 3s
           />
           <FormControl fullWidth margin="dense" size="small">
             <InputLabel>Priority</InputLabel>

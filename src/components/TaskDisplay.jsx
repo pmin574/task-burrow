@@ -14,13 +14,22 @@ const TaskDisplay = ({ tasks = [], onTaskDelete }) => {
   const columns = [
     { field: "title", headerName: "Title", flex: 1 },
     { field: "description", headerName: "Description", flex: 2 },
-    { field: "dueDate", headerName: "Due Date", flex: 1, sortable: true },
+    {
+      field: "dueDate",
+      headerName: "Due Date & Time",
+      flex: 1,
+      sortable: true,
+      renderCell: (params) => {
+        const dueDate = params.value ? new Date(params.value) : null;
+        return dueDate ? dueDate.toLocaleString() : "N/A";
+      },
+    },
     { field: "priority", headerName: "Priority", flex: 1, sortable: true },
   ];
 
   // Convert tasks into row format for DataGrid
   const rows = tasks.map((task) => ({
-    id: task.id, // Use actual task ID
+    id: task.id,
     title: task.title,
     description: task.description,
     dueDate: task.dueDate || "N/A",

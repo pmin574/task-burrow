@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
@@ -21,6 +21,8 @@ const localizer = dateFnsLocalizer({
 const CalendarPage = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [currentView, setCurrentView] = useState(Views.MONTH);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -41,12 +43,19 @@ const CalendarPage = () => {
     setTasks(formattedTasks);
   };
 
+  // ✅ Allow `react-big-calendar` to manage navigation
+  const handleNavigate = (newDate) => {
+    setCurrentDate(newDate);
+  };
+
   return (
     <div className="calendar-page">
-      <button className="back-button" onClick={() => navigate("/")}>
+      <button className="back-button" onClick={() => navigate("/dashboard")}>
         ⬅️ Back to Dashboard
       </button>
       <h2>📅 Task Calendar</h2>
+
+      {/* 🔥 Calendar Component (Now everything works) */}
       <div className="calendar-container">
         <Calendar
           localizer={localizer}
@@ -54,6 +63,10 @@ const CalendarPage = () => {
           startAccessor="start"
           endAccessor="end"
           style={{ height: "80vh", width: "100%", marginTop: "20px" }}
+          view={currentView}
+          onView={setCurrentView}
+          date={currentDate}
+          onNavigate={handleNavigate} // ✅ Now "Next," "Back," and "Today" work properly
         />
       </div>
     </div>
