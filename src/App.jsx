@@ -28,11 +28,13 @@ function App() {
       {/* Redirect logged-in users to Dashboard */}
       <Route
         path="/"
-        element={user ? <Navigate to="/dashboard" /> : <LandingPage />}
+        element={
+          user ? <Navigate to="/task-burrow/dashboard" /> : <LandingPage />
+        }
       />
       <Route
         path="/dashboard"
-        element={user ? <Dashboard /> : <Navigate to="/" />}
+        element={user ? <Dashboard /> : <Navigate to="/task-burrow" />}
       />
       <Route path="/calendar" element={<CalendarPage />} />
       <Route path="/insights" element={<InsightsPage />} />
