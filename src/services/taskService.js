@@ -60,3 +60,18 @@ export const getTasks = async (userId) => {
     return [];
   }
 };
+
+export const updateTask = async (userId, taskId, updates) => {
+  if (!userId || !taskId) return;
+
+  try {
+    const taskRef = doc(db, `users/${userId}/tasks`, taskId);
+    await updateDoc(taskRef, {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    });
+    console.log(`Task ${taskId} updated in Firestore`);
+  } catch (error) {
+    console.error("Error updating task: ", error);
+  }
+};
