@@ -8,6 +8,9 @@ import {
   updateDoc,
   doc,
   serverTimestamp,
+  query,
+  where,
+  orderBy,
 } from "firebase/firestore";
 
 export const deleteTask = async (userId, taskId) => {
@@ -31,8 +34,9 @@ export const addTask = async (userId, task) => {
       ...task,
       dueDate: task.dueDate ? new Date(task.dueDate).toISOString() : null,
       priority: task.priority || "Normal",
-      completed: task.completed ?? false,
+      status: task.status || "todo",
       createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     });
 
     return { id: docRef.id, ...task, createdAt: new Date() };
@@ -46,14 +50,16 @@ export const getTasks = async (userId) => {
 
   try {
     const userTasksRef = collection(db, `users/${userId}/tasks`);
-    const snapshot = await getDocs(userTasksRef);
+    const q = query(userTasksRef, orderBy("updatedAt", "desc"));
+    const snapshot = await getDocs(q);
     return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
       dueDate: doc.data().dueDate ? new Date(doc.data().dueDate) : null,
       priority: doc.data().priority || "Normal",
-      completed: doc.data().completed ?? false,
+      status: doc.data().status || "todo",
       createdAt: doc.data().createdAt?.toDate(),
+      updatedAt: doc.data().updatedAt?.toDate(),
     }));
   } catch (error) {
     console.error("Error fetching tasks: ", error);

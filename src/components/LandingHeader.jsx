@@ -10,9 +10,13 @@ const LandingHeader = () => {
           sequence={[
             "Data Driven Analytics",
             5000, // Show for 2 seconds
-            "AI-Powered Solutions",
+            "Streamlined Productivity and Collaboration",
             5000,
             "Your Tasks, Simplified",
+            5000,
+            "A Modern Solution for Daily Productivity",
+            5000,
+            "Secure and Scalable Task Management",
             5000,
           ]}
           wrapper="span"

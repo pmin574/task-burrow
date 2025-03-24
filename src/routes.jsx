@@ -4,7 +4,7 @@ import CalendarPage from "./pages/CalendarPage";
 import InsightsPage from "./pages/InsightsPage";
 import KanbanBoardPage from "./pages/KanbanBoardPage";
 import Dashboard from "./pages/Dashboard";
-import TasksPage from "./pages/TasksPage"; // ✅ Import Tasks Page
+import TasksPage from "./pages/TasksPage";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   { path: "/calendar", element: <CalendarPage /> },
   { path: "/insights", element: <InsightsPage /> },
   { path: "/kanban", element: <KanbanBoardPage /> },
-  { path: "/tasks", element: <TasksPage /> }, // ✅ Add Tasks Page
+  { path: "/tasks", element: <TasksPage /> },
 ]);
 
 export default router;

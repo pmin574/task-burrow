@@ -1,0 +1,111 @@
+.tasks-page {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f5f6fa;
+}
+
+.tasks-page h2 {
+  margin: 20px 0;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.back-button {
+  padding: 10px 15px;
+  background: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.back-button:hover {
+  background: #1f6691;
+}
+
+.tasks-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tasks-list-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tasks-header {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.task-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.task-item:hover {
+  background-color: #f8f9fa;
+}
+
+.task-item.completed {
+  background-color: #f8f9fa;
+}
+
+.task-item.completed .MuiListItemText-primary {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.task-item.completed .MuiListItemText-secondary {
+  color: #adb5bd;
+}
+
+.priority-chip {
+  margin-top: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tasks-container {
+    padding: 0 10px;
+  }
+
+  .tasks-header {
+    flex-direction: column;
+  }
+
+  .filter-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+/* Animation for task completion */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+.task-item.completed {
+  animation: fadeOut 0.3s ease-out;
+}

@@ -22,7 +22,7 @@ const LandingPage = () => {
   return (
     <div className="container text-center mt-5">
       {/* Animated Typing Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -50 }} // Starts faded & moved up
         whileInView={{ opacity: 1, y: 0 }} // Fades in & moves down
         transition={{ duration: 1, ease: "easeOut" }} // Smooth animation
@@ -38,10 +38,7 @@ const LandingPage = () => {
         transition={{ duration: 1, ease: "easeOut", delay: 0.3 }} // Slight delay
         viewport={{ once: true }} // Only animates once
       >
-        <LoginButtons 
-          onGoogleLogin={loginWithGoogle}
-          onMicrosoftLogin={() => alert("Microsoft login not yet implemented")}
-        />
+        <LoginButtons onGoogleLogin={loginWithGoogle} />
       </motion.div>
     </div>
   );
