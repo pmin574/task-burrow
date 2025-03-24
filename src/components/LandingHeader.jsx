@@ -26,7 +26,7 @@ const LandingHeader = () => {
       </h1>
       <h2 className="call-to-action">
         {" "}
-        Welcome to TaskBurrow. Sign up or Log in to Start Your Adventure.
+        Welcome to TaskBurrow. Log in to Start.
       </h2>
     </>
   );
