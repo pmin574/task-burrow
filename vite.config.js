@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/task-burrow/",
   server: {
     port: 3000, // Ensures a predictable development port
   },

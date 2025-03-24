@@ -5,7 +5,7 @@ import CalendarPage from "./pages/CalendarPage";
 import InsightsPage from "./pages/InsightsPage";
 import KanbanBoardPage from "./pages/KanbanBoardPage";
 import LandingPage from "./pages/LandingPage";
-import Dashboard from "./pages/Dashboard"; // ✅ New import
+import Dashboard from "./pages/Dashboard";
 import TasksPage from "./pages/TasksPage";
 
 function App() {
@@ -25,16 +25,13 @@ function App() {
 
   return (
     <Routes>
-      {/* Redirect logged-in users to Dashboard */}
       <Route
         path="/"
-        element={
-          user ? <Navigate to="/task-burrow/dashboard" /> : <LandingPage />
-        }
+        element={user ? <Navigate to="/dashboard" /> : <LandingPage />}
       />
       <Route
         path="/dashboard"
-        element={user ? <Dashboard /> : <Navigate to="/task-burrow" />}
+        element={user ? <Dashboard /> : <Navigate to="/" />}
       />
       <Route path="/calendar" element={<CalendarPage />} />
       <Route path="/insights" element={<InsightsPage />} />

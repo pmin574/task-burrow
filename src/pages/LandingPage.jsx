@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, loginWithGoogle } from "../firebaseConfig";
+import { auth, loginWithGoogle } from "../../src/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { motion } from "framer-motion"; // Import Framer Motion
 import LoginButtons from "../components/LoginButton";
@@ -12,7 +12,7 @@ const LandingPage = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/task-burrow/dashboard"); // Updated navigation path
+        navigate("/");
       }
     });
 
